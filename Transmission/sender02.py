@@ -12,7 +12,7 @@ def setup():
 
     # Set radio parameters
     radio.setChannel(0x76)               # Set channel to 0x76
-    radio.setPALevel(RF24.RF24_PA_LOW)   # Power Amplifier level
+    radio.setPALevel(RF24_PA_LOW)   # Power Amplifier level
     radio.openWritingPipe(b'1Node')      # Address to send to
     radio.printDetails()                 # Print radio details
     radio.stopListening()                # Set as transmitter
