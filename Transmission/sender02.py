@@ -27,7 +27,7 @@ def setup():
 # Send message
 def send_message():
     # Create message
-    message = list("Hello Pi 2!")
+    message = "Hello Pi 2!"
     # Print Sending message
     print(f"Sending: {message}")
     
