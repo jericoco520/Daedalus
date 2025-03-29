@@ -33,8 +33,11 @@ def send_message():
     # Print Sending message
     print(f"Sending: {message}")
     
+    # Pack the payload
+    payload = message.encode('utf-8') [:32] # Limit to 32 bytes
+    
     # Radio send message with confirmatino of success or failure
-    if radio.write(message.encode()):
+    if radio.write(payload):
         print("Transmission successful")
     else:
         print("Transmission failed")
