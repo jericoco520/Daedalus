@@ -12,7 +12,11 @@ def setup():
 
     # Set radio parameters
     radio.setChannel(0x76)               # Set channel to 0x76
+<<<<<<< HEAD
     radio.setPALevel(RF24.RF24_PA_LOW)   # Power Amplifier level
+=======
+    radio.setPALevel(RF24_PA_LOW)   # Power Amplifier level
+>>>>>>> main
     radio.openWritingPipe(b'1Node')      # Address to send to
     radio.printDetails()                 # Print radio details
     radio.stopListening()                # Set as transmitter
@@ -27,7 +31,11 @@ def setup():
 # Send message
 def send_message():
     # Create message
+<<<<<<< HEAD
     message = list("Hello Pi 2!")
+=======
+    message = "Hello Pi 2!"
+>>>>>>> main
     # Print Sending message
     print(f"Sending: {message}")
     
@@ -41,6 +49,12 @@ def send_message():
 setup()
 
 # Send message every second
+<<<<<<< HEAD
  while True:
      send_message()
      time.sleep(1)
+=======
+# while True:
+#     send_message()
+#     time.sleep(1)
+>>>>>>> main
