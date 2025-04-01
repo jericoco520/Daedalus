@@ -33,7 +33,7 @@ def send_message():
     buffer = bytearray(message, 'utf-8')  # Convert message to bytearray
     
     # Limit the buffer size to 32 bytes
-    if len(buffer > 32):
+    if len(buffer) > 32:
         buffer = buffer[:32]
         
     # Print Sending message
