@@ -12,6 +12,7 @@ def setup():
     # Set radio parameters
     radio.setChannel(0x76)              # Set channel to 0x76
     radio.setPALevel(RF24_PA_LOW)       # Power Amplifier level
+    radio.setDataRate(RF24_2MBPS)       # Data rate
     radio.openReadingPipe(1, b'1Node')  # Address to receive from
     radio.printDetails()                # Print radio details
     radio.startListening()              # Set as receiver
