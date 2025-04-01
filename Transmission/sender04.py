@@ -46,6 +46,6 @@ def send_message():
 setup()
 
 # Send message every second
-# while True:
-#     send_message()
-#     time.sleep(1)
+while True:
+    send_message()
+    time.sleep(1)
