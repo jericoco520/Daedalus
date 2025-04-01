@@ -53,10 +53,5 @@ setup()
 
 # Send message every second
 while True:
-    # Check if radio is ready
-    radio.powerUp()  # Power up the radio
-    radio.flush_tx()  # Clear any previous transmissions
-    
-    # Send message
     send_message()
     time.sleep(1)
