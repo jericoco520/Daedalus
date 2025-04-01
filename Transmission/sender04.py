@@ -14,6 +14,7 @@ def setup():
     radio.setChannel(0x76)               # Set channel to 0x76
     radio.setPALevel(RF24_PA_LOW)        # Power Amplifier level
     radio.setDataRate(RF24_2MBPS)        # Data rate
+    radio.set_auto_ack(True)             # Enable auto acknowledgment
     radio.openWritingPipe(b'1Node')      # Address to send to
     radio.printDetails()                 # Print radio details
     radio.listen = False                 # Set radio in TX mode
@@ -22,6 +23,7 @@ def setup():
     print("Radio setup complete")
     print(f"Radio Driver: {RF24_DRIVER}")
     print(f"Is chip connected? {radio.isChipConnected()}")  
+    print(f"Auto ack: {radio.autoAck()}")
     print(f"Power level: {radio.getPALevel()}")
     print(f"Channel: {radio.getChannel()}")
     print(f"Data rate: {radio.getDataRate()}")
