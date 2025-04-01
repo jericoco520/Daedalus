@@ -16,7 +16,7 @@ def setup():
     radio.setDataRate(RF24_2MBPS)        # Data rate
     radio.set_auto_ack(True)             # Enable auto acknowledgment
     radio.openWritingPipe(b'1Node')      # Address to send to
-    radio.printDetails()                 # Print radio details
+    radio.printPrettyDetails()           # Print radio details
     radio.listen = False                 # Set radio in TX mode
     
     # Debugging information
