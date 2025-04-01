@@ -40,7 +40,7 @@ def send_message():
     if result:
         print("Transmission successful")
     else:
-        print("Transmission failed")
+        print(f"Transmission failed with result: ", result)
 
 # Main loop
 setup()
