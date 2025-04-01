@@ -31,6 +31,11 @@ def send_message():
     # Create message
     message = "Hello Pi 2!"
     buffer = bytearray(message, 'utf-8')  # Convert message to bytearray
+    
+    # Limit the buffer size to 32 bytes
+    if len(buffer > 32):
+        buffer = buffer[:32]
+        
     # Print Sending message
     print(f"Sending: {message}")
     
