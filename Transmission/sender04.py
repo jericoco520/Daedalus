@@ -16,7 +16,7 @@ def setup():
     radio.setDataRate(RF24_2MBPS)        # Data rate
     radio.openWritingPipe(b'1Node')      # Address to send to
     radio.printDetails()                 # Print radio details
-    radio.stopListening()                # Set as transmitter
+    radio.listen = False                 # Set radio in TX mode
     
     # Debugging information
     print("Radio setup complete")
@@ -35,9 +35,9 @@ def send_message():
     
     # Pack the payload
     payload = message.encode('utf-8') [:32] # Limit to 32 bytes
-    
+    result = radio.write(payload)
     # Radio send message with confirmatino of success or failure
-    if radio.write(payload):
+    if result:
         print("Transmission successful")
     else:
         print("Transmission failed")
