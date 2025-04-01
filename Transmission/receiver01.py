@@ -1,5 +1,5 @@
 import time
-from pyrf24 import RF24, RF24_PA_LOW, RF24_DRIVER   # Module for NRF24L01
+from pyrf24 import RF24, RF24_PA_LOW, RF24_DRIVER, RF24_2MBPS   # Module for NRF24L01
 
 radio = RF24(22, 0)  # CE=GPIO22, CSN=SPI0 CS0
 
