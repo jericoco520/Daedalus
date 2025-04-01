@@ -30,12 +30,12 @@ def setup():
 def send_message():
     # Create message
     message = "Hello Pi 2!"
+    buffer = bytearray(message, 'utf-8')  # Convert message to bytearray
     # Print Sending message
     print(f"Sending: {message}")
     
     # Pack the payload
-    payload = message.encode('utf-8') [:32] # Limit to 32 bytes
-    result = radio.write(payload)
+    result = radio.write(buffer)
     # Radio send message with confirmatino of success or failure
     if result:
         print("Transmission successful")
