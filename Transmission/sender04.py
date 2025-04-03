@@ -45,6 +45,7 @@ def send_message():
     print(f"Sending: {message}")
     
     # Load payload to TX Pipe
+    radio.flush_tx()  # Flush TX buffer
     radio.start_write(buffer)
     result = radio.write(buffer)  # Send the message ## write_fast worked for 3 sends
     # Radio send message with confirmatino of success or failure
