@@ -56,6 +56,9 @@ setup()
 
 # Send message every second
 while True:
+<<<<<<< HEAD
+=======
     # Send message
+>>>>>>> be645fd3c9014df1a2101d616425e3ec5f941dab
     send_message()
     time.sleep(1)
