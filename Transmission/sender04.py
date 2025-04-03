@@ -44,8 +44,9 @@ def send_message():
     # Print Sending message
     print(f"Sending: {message}")
     
-    # Pack the payload
-    result = radio.write(buffer)
+    # Load payload to TX Pipe
+    radio.start_write(buffer)
+    result = radio.write(buffer)  # Send the message
     # Radio send message with confirmatino of success or failure
     if result:
         print("Transmission successful")
