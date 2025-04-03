@@ -46,7 +46,7 @@ def send_message():
     
     # Load payload to TX Pipe
     radio.start_write(buffer)
-    result = radio.write(buffer)  # Send the message
+    result = radio.write(buffer)  # Send the message ## write_fast worked for 3 sends
     # Radio send message with confirmatino of success or failure
     if result:
         print("Transmission successful")
