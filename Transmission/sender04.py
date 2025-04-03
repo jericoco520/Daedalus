@@ -20,6 +20,7 @@ def setup():
     radio.set_auto_ack(True)             # Enable auto acknowledgment
     #radio.openWritingPipe(b'1Node')      # Address to send to
     radio.printPrettyDetails()           # Print radio details
+    radio.enable_dynamic_ack()           # Enable dynamic acknowledgment
     radio.listen = False                 # Set radio in TX mode
     
     # Debugging information
