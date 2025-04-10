@@ -20,7 +20,8 @@ def setup():
     #radio.openWritingPipe(b'1Node')      # Address to send to
     radio.printPrettyDetails()           # Print radio details
     radio.enable_dynamic_ack()           # Enable dynamic acknowledgment
-    radio.listen = False                 # Set radio in TX mode
+    #radio.listen = False                 # Set radio in TX mode
+    radio.stopListening()                # Stop listening to switch to TX mode
     
     # Debugging information
     print("Radio setup complete")
