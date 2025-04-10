@@ -9,7 +9,7 @@ def setup():
     if not radio.begin():
         print("Radio hardware not responding")
         return
-
+    
     address = [b"1Node", b"2Node"]       # Addresses for communication
     radio.open_tx_pipe(address[0])       # Open TX pipe with address[0]
     radio.open_rx_pipe(1, address[1])    # Open RX pipe with address[1]
