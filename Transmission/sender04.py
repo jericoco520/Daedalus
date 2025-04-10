@@ -50,7 +50,7 @@ def send_message():
     radio.flush_tx()  # Flush TX buffer
     #radio.start_write(buffer)
     result = False
-    result = radio.write_fast(buffer)  # Send the message ## write_fast worked for 3 sends
+    result = radio.write(buffer, no_ack=False)  # Send message and request acknowledgment
     # Radio send message with confirmatino of success or failure
     if result:
         print("Transmission successful")
