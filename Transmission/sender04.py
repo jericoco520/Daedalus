@@ -20,7 +20,7 @@ def setup():
     radio.openWritingPipe(address[0])    # Address to send to (1Node)
     radio.enableDynamicPayloads()        # Enable dynamic payloads
     radio.enableAckPayload()             # Enable acknowledgment payload
-    radio.enable_dynamic_ack()           # Enable dynamic acknowledgment
+    #radio.enable_dynamic_ack()           # Enable dynamic acknowledgment
     #radio.listen = False                 # Set radio in TX mode
     radio.printPrettyDetails()           # Print radio details
     radio.stopListening()                # Stop listening to switch to TX mode
@@ -50,7 +50,7 @@ def send_message():
     radio.flush_tx()  # Flush TX buffer
     #radio.start_write(buffer)
     result = False
-    result = radio.write(buffer, no_ack=False)  # Send message and request acknowledgment
+    result = radio.write(buffer)  # Send message and request acknowledgment
     # Radio send message with confirmatino of success or failure
     if result:
         print("Transmission successful")
