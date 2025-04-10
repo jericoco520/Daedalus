@@ -1,5 +1,5 @@
 import time
-from pyrf24 import RF24 , RF24_PA_LOW, RF24_DRIVER, RF24_2MBPS   # Module for NRF24L01
+from pyrf24 import RF24 , RF24_PA_LOW, RF24_DRIVER, RF24_2MBPS, RF24_PA_HIGH   # Module for NRF24L01
 
 radio = RF24(22, 0)  # CE = GPIO22, CSN = CE0 on SPI bus 0: /dev/spidev0.0 
 
@@ -14,7 +14,7 @@ def setup():
     #radio.open_tx_pipe(address[0])       # Open TX pipe with address[0]
     #radio.open_rx_pipe(1, address[1])    # Open RX pipe with address[1]
     radio.setChannel(0x60)               # Set channel 
-    radio.setPALevel(RF24_PA_LOW)        # Power Amplifier level
+    radio.setPALevel(RF24_PA_HIGH)        # Power Amplifier level
     radio.setDataRate(RF24_2MBPS)        # Data rate
     radio.set_auto_ack(True)             # Enable auto acknowledgment
     radio.openWritingPipe(address[0])    # Address to send to (1Node)

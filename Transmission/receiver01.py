@@ -1,5 +1,5 @@
 import time
-from pyrf24 import RF24, RF24_PA_LOW, RF24_DRIVER, RF24_2MBPS
+from pyrf24 import RF24, RF24_PA_LOW, RF24_DRIVER, RF24_2MBPS, RF24_PA_HIGH
 
 radio = RF24(22, 0)  # CE=GPIO22, CSN=SPI0 CS0
 
@@ -8,7 +8,7 @@ def setup():
         raise RuntimeError("Radio hardware not responding")
 
     radio.setChannel(0x60)
-    radio.setPALevel(RF24_PA_LOW)
+    radio.setPALevel(RF24_PA_HIGH)
     radio.setDataRate(RF24_2MBPS)
     radio.setAutoAck(True)
     radio.enableDynamicPayloads()
