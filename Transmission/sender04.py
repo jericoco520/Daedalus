@@ -11,8 +11,6 @@ def setup():
         return
 
     address = [b"1Node", b"2Node"]       # Addresses for communication
-    #radio.open_tx_pipe(address[0])       # Open TX pipe with address[0]
-    #radio.open_rx_pipe(1, address[1])    # Open RX pipe with address[1]
     radio.setChannel(0x60)               # Set channel 
     radio.setPALevel(RF24_PA_HIGH)       # Power Amplifier level
     radio.setDataRate(RF24_2MBPS)        # Data rate
@@ -20,8 +18,6 @@ def setup():
     radio.openWritingPipe(address[0])    # Address to send to (1Node)
     radio.enableDynamicPayloads()        # Enable dynamic payloads
     radio.enableAckPayload()             # Enable acknowledgment payload
-    #radio.enable_dynamic_ack()           # Enable dynamic acknowledgment
-    #radio.listen = False                 # Set radio in TX mode
     radio.printPrettyDetails()           # Print radio details
     radio.stopListening()                # Stop listening to switch to TX mode
     
