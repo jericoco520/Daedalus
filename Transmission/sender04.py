@@ -9,15 +9,15 @@ def setup():
     if not radio.begin():
         print("Radio hardware not responding")
         return
-    
+
     address = [b"1Node", b"2Node"]       # Addresses for communication
-    radio.open_tx_pipe(address[0])       # Open TX pipe with address[0]
-    radio.open_rx_pipe(1, address[1])    # Open RX pipe with address[1]
+    #radio.open_tx_pipe(address[0])       # Open TX pipe with address[0]
+    #radio.open_rx_pipe(1, address[1])    # Open RX pipe with address[1]
     radio.setChannel(0x76)               # Set channel to 0x76
     radio.setPALevel(RF24_PA_LOW)        # Power Amplifier level
     radio.setDataRate(RF24_2MBPS)        # Data rate
     radio.set_auto_ack(True)             # Enable auto acknowledgment
-    #radio.openWritingPipe(b'1Node')      # Address to send to
+    radio.openWritingPipe(b'1Node')      # Address to send to
     radio.printPrettyDetails()           # Print radio details
     radio.enable_dynamic_ack()           # Enable dynamic acknowledgment
     #radio.listen = False                 # Set radio in TX mode
