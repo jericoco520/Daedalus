@@ -13,7 +13,6 @@ def setup():
     address = [b"1Node", b"2Node"]       # Addresses for communication
     radio.open_tx_pipe(address[0])       # Open TX pipe with address[0]
     radio.open_rx_pipe(1, address[1])    # Open RX pipe with address[1]
-    # Set radio parameters
     radio.setChannel(0x76)               # Set channel to 0x76
     radio.setPALevel(RF24_PA_LOW)        # Power Amplifier level
     radio.setDataRate(RF24_2MBPS)        # Data rate
