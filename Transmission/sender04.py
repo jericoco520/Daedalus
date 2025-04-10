@@ -18,9 +18,11 @@ def setup():
     radio.setDataRate(RF24_2MBPS)        # Data rate
     radio.setAutoAck(True)               # Enable auto acknowledgment
     radio.openWritingPipe(address[0])    # Address to send to (1Node)
-    radio.printPrettyDetails()           # Print radio details
+    radio.enableDynamicPayloads()        # Enable dynamic payloads
+    radio.enableAckPayload()             # Enable acknowledgment payload
     radio.enable_dynamic_ack()           # Enable dynamic acknowledgment
     #radio.listen = False                 # Set radio in TX mode
+    radio.printPrettyDetails()           # Print radio details
     radio.stopListening()                # Stop listening to switch to TX mode
     
     # Debugging information
