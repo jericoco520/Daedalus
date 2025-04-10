@@ -17,7 +17,7 @@ def setup():
     radio.setPALevel(RF24_PA_LOW)        # Power Amplifier level
     radio.setDataRate(RF24_2MBPS)        # Data rate
     radio.set_auto_ack(True)             # Enable auto acknowledgment
-    radio.openWritingPipe(address[1])    # Address to send to (2Node)
+    radio.openWritingPipe(address[0])    # Address to send to (1Node)
     radio.printPrettyDetails()           # Print radio details
     radio.enable_dynamic_ack()           # Enable dynamic acknowledgment
     #radio.listen = False                 # Set radio in TX mode
