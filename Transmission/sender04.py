@@ -14,9 +14,9 @@ def setup():
     #radio.open_tx_pipe(address[0])       # Open TX pipe with address[0]
     #radio.open_rx_pipe(1, address[1])    # Open RX pipe with address[1]
     radio.setChannel(0x60)               # Set channel 
-    radio.setPALevel(RF24_PA_HIGH)        # Power Amplifier level
+    radio.setPALevel(RF24_PA_HIGH)       # Power Amplifier level
     radio.setDataRate(RF24_2MBPS)        # Data rate
-    radio.set_auto_ack(True)             # Enable auto acknowledgment
+    radio.setAutoAck(True)               # Enable auto acknowledgment
     radio.openWritingPipe(address[0])    # Address to send to (1Node)
     radio.printPrettyDetails()           # Print radio details
     radio.enable_dynamic_ack()           # Enable dynamic acknowledgment
