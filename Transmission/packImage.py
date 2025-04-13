@@ -54,12 +54,24 @@ def pack_image(image_path):
         chunks.append(bytearray(chunk))
 
     print(f"Packed {len(chunks)} chunks of image data.")
-    return chunks
-    
-# Example usage
-    
-image_data = pack_image("Eart.png")
+    return chunks   # Return the list of chunks (bytearrays) containing 32 bytes each
 
-# Print the first 5 chunks
-# for i in range(100000, 100100):
-#     print(f"Chunk {i}: {image_data[i]}")
+# Function: chunk_file(file_path)
+# Parameters:
+#     folder_path (str): The path to the folder to be packed.
+# Returns: a list of bytearrays, each containing 32 bytes of file data.
+def chunk_file(folder_path):
+    # Initialize an empty list to hold the chunks
+    chunks = []
+    
+    # Open the folder
+    
+    # Find length of the folder
+    
+    # Chunk the folder into 32 byte chunks
+    
+    
+
+# Example usage
+image_data = pack_image("Eart.png")     # ==> Transmit each chunk of image data
+
