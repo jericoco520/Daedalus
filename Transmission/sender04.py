@@ -9,7 +9,7 @@ def setup():
     if not radio.begin():
         print("Radio hardware not responding")
         return
-
+    
     address = [b"1Node", b"2Node"]       # Addresses for communication
     radio.setChannel(0x60)               # Set channel 
     radio.setPALevel(RF24_PA_HIGH)       # Power Amplifier level
