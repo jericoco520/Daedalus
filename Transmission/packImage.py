@@ -1,16 +1,22 @@
+from email.mime import image
 import pathlib as pth
+import struct
 import PIL
 import PIL.Image 
 # This module holds the function to take a 1024 x 1024 PNG image
 # and pack it into 32 byte payloads for transmission over the nRF24L01 radio.
 
 # The image is split into 32 byte chunks held in a list or an array.
-
+'''
 # Function: pack_image(image_path)
+
 # Parameters:
 #     image_path (str): The path to the PNG image file.
-# Returns: a list of bytearrays, each containing 32 bytes of image data.
-def pack_image(image_path):
+
+# Returns: 
+#     a list of bytearrays, each containing 32 bytes of image data.
+'''
+def pack_image(image_path, image_index: int):
     print(f"Packing image: {pth.Path(image_path).resolve()}")
     
     # Open the image using PIL
@@ -25,13 +31,15 @@ def pack_image(image_path):
     img = img.resize((1024, 1024))
     print(f"Image size after resizing: {img.size}")
     
-    # Inspect the first few pixels
-    pixels = list(img.getdata())
-    print(f"First 10 pixels: {pixels[500000:500010]}")
+    # # DEBUGGING Inspect the first few pixels 
+    # pixels = list(img.getdata())
+    # print(f"First 10 pixels: {pixels[500000:500010]}")
     
     # Convert the image to a byte array
     img_data = img.tobytes()
-    print(f"First 100 bytes of img_data: {img_data[500000:500010]}")
+    
+    # DEBUGGING
+    # print(f"First 100 bytes of img_data: {img_data[500000:500010]}")
     
     # Calculate the number of chunks needed
     num_chunks = len(img_data) // 32 + (1 if len(img_data) % 32 else 0)
@@ -50,11 +58,13 @@ def pack_image(image_path):
         if len(chunk) < 32:
             chunk += b'\x00' * (32 - len(chunk))
         
-        # Append the chunk to the list
-        chunks.append(bytearray(chunk))
+        # Add metadata: image index and chunk index
+        metadata= struct.pack("HH", image_index, i)
+        # Append the chunk and metadata to the list
+        chunks.append(metadata + chunk)
 
-    print(f"Packed {len(chunks)} chunks of image data.")
-    return chunks   # Return the list of chunks (bytearrays) containing 32 bytes each
+    print(f"Packed {len(chunks)} chunks of image {image_index}.")
+    return chunks   # Return the list of chunks containing 32 bytes each
 
 # Function: chunk_file(file_path)
 # Parameters:
@@ -62,13 +72,29 @@ def pack_image(image_path):
 # Returns: a list of bytearrays, each containing 32 bytes of file data.
 def chunk_file(folder_path):
     # Initialize an empty list to hold the chunks
-    chunks = []
+    all_chunks = []
     
     # Open the folder
+    folder = pth.Path(folder_path).resolve()
+    print(f"Processing folder: {folder}")
     
-    # Find length of the folder
-    
-    # Chunk the folder into 32 byte chunks
+    # Check if the folder exists
+    if not folder.is_dir():
+        print(f"Error: {folder} is not a valid directory")
+        return []
+            
+    # Iterate through all RNG files in the folder
+    for image_index, image_file in enumerate(folder.glob("*.png")):
+        print(f"Processing image {image_index}: {image_file}")
+        
+        # Use the pack_image function to chunk the image
+        image_chunks = pack_image(image_file, image_index)
+        
+        # Append the chunks to the all_chunks list
+        all_chunks.extend(image_chunks)
+        
+    print(f"Total chunks created from folder: {len(all_chunks)}")
+    return all_chunks
     
     
 
