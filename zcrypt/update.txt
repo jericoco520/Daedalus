@@ -9,3 +9,11 @@ Saves encrypted files in a newly created "enc" folder.
 Decrypts files from "enc" back into "images".
 
 The new encryptX command now performs both encryption and decryption in one sweep.
+
+3/20
+Removed -pbkdf2 (since it was unnecessary when using raw keys).
+Now looks for .zip files inside the images/ directory.
+now encrypts both PNGs and ZIPs
+
+zcrypt command processes .zip files.
+xcrypt command still encypts all.

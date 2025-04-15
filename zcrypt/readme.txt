@@ -1,20 +1,22 @@
 Make it executable:
-chmod +x rebel_aes.sh
+chmod +x aes.sh
 
-To Encrypt:
-./aes.sh encrypt 
+On the command line:
+	To Encrypt:
+	./aes.sh encrypt 
 
-To Decrypt:
-./aes.sh decrypt 
+	To Decrypt:
+	./aes.sh decrypt 
 
-To encrypt/decrypt in one
-./aes.sh xcrypt
+	To encrypt/decrypt in one
+	./aes.sh zcrypt
 
+Python script:
+	python run.py
+	- runs the aes.sh script with command xcrypt (not zip compatible)
 
 The script generates and stores two files that contain the encryption key and IV (Initialization Vector). These files ensure encryption can be repeated without requiring a password.
-You could bypass the need for this by using a password. OpenSSL will then derive a key from the password using PBKDF2
 
-Bonus:
 If you want the script to work from anywhere, you can
 move it to /usr/local/bin/ (optional for global usage):
 
