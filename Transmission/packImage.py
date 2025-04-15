@@ -96,8 +96,6 @@ def chunk_file(folder_path):
     print(f"Total chunks created from folder: {len(all_chunks)}")
     return all_chunks
     
-    
-
 # Example usage
-image_data = pack_image("Eart.png")     # ==> Transmit each chunk of image data
+image_data = chunk_file("png_images")
 
