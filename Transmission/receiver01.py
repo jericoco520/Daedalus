@@ -6,7 +6,7 @@ radio = RF24(22, 0)  # CE=GPIO22, CSN=SPI0 CS0
 def setup():
     if not radio.begin():
         raise RuntimeError("Radio hardware not responding")
-
+    
     radio.setChannel(0x60)
     radio.setPALevel(RF24_PA_HIGH)
     radio.setDataRate(RF24_2MBPS)
