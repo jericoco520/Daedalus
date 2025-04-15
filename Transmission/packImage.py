@@ -59,7 +59,7 @@ def pack_image(image_path, image_index: int):
             chunk += b'\x00' * (32 - len(chunk))
         
         # Add metadata: image index and chunk index
-        metadata= struct.pack("HH", image_index, i)
+        metadata= struct.pack("II", image_index, i)
         # Append the chunk and metadata to the list
         chunks.append(metadata + chunk)
 
@@ -76,7 +76,7 @@ def chunk_file(folder_path):
     
     # Open the folder
     folder = pth.Path(folder_path).resolve()
-    print(f"Processing folder: {folder}")
+    #print(f"Processing folder: {folder}")
     
     # Check if the folder exists
     if not folder.is_dir():
@@ -98,4 +98,5 @@ def chunk_file(folder_path):
     
 # Example usage
 image_data = chunk_file("png_images")
+
 
