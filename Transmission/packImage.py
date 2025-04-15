@@ -27,9 +27,6 @@ def pack_image(image_path, image_index: int):
         img = img.convert("P")
         print(f"Image Mode: {img.mode}")
     
-    # Convert the image to RGBA format
-    #img = img.convert("RGBA")
-    
     # Resize the image to 1024 x 1024 pixels
     img = img.resize((1024, 1024))
     
