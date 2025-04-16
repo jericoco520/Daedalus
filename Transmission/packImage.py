@@ -71,20 +71,20 @@ def pack_image(image_path, image_index: int):
 #       a list of bytes, each containing 24 bytes of image data and
 #       8 bytes of metadata.
 '''
-def chunk_file(folder_path):
+def chunk_file(file_path):
     # Initialize an empty list to hold the chunks
     all_chunks = []
     
     # Open the folder
-    folder = pth.Path(folder_path).resolve()
+    file = pth.Path(file_path).resolve()
     
     # Check if the folder exists
-    if not folder.is_dir():
-        print(f"Error: {folder} is not a valid directory")
+    if not file.is_dir():
+        print(f"Error: {file} is not a valid directory")
         return []
             
     # Iterate through all RNG files in the folder by index
-    for image_index, image_file in enumerate(folder.glob("*.png")):
+    for image_index, image_file in enumerate(file.glob("*.png")):
         print(f"Processing image {image_index}")
         
         # Use the pack_image function to chunk the image
