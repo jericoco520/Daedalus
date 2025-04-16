@@ -79,10 +79,12 @@ def chunk_file(file_path):
     file = pth.Path(file_path).resolve()
     
     # Check if the folder exists
-    if not file.is_dir():
-        print(f"Error: {file} is not a valid directory")
+    if not file.is_file():
+        print(f"Error: {file} is not a valid file")
         return []
             
+    print(f"Processing file: {file}")
+    
     # Iterate through all RNG files in the folder by index
     for image_index, image_file in enumerate(file.glob("*.png")):
         print(f"Processing image {image_index}")
@@ -100,3 +102,32 @@ def chunk_file(file_path):
 image_data = chunk_file("png_images")
 print(f"Size of image_data: {len(image_data) * 32} bytes")
 
+
+
+
+def chunk_dir_png(folder_path):
+    # Initialize an empty list to hold the chunks
+    all_chunks = []
+    
+    # Open the folder
+    folder = pth.Path(folder_path).resolve()
+    
+    # Check if the folder exists
+    if not folder.is_dir():
+        print(f"Error: {folder} is not a valid file")
+        return []
+            
+    print(f"Processing file: {folder}")
+    
+    # Iterate through all RNG files in the folder by index
+    for image_index, image_file in enumerate(folder.glob("*.png")):
+        print(f"Processing image {image_index}")
+        
+        # Use the pack_image function to chunk the image
+        image_chunks = pack_image(image_file, image_index)
+        
+        # Append the chunks to the all_chunks list
+        all_chunks.extend(image_chunks)
+        
+    print(f"Total chunks created from folder: {len(all_chunks)}")
+    return all_chunks
