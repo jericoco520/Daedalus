@@ -1,4 +1,6 @@
 import time
+import hashlib
+
 from pyrf24 import RF24 , RF24_PA_LOW, RF24_DRIVER, RF24_2MBPS, RF24_PA_HIGH   # Module for NRF24L01
 
 # SPI and CE assignments for 4 radios
@@ -10,6 +12,28 @@ SPI_CONFIG = [
 ]
 
 radio = RF24(22, 0)  # CE = GPIO22, CSN = CE0 on SPI bus 0: /dev/spidev0.0 
+
+def generate_md5(file_path):
+    """
+    Generates the MD5 checksum of a file.
+
+    Args:
+        file_path (str): Path to the file.
+
+    Returns:
+        str: MD5 checksum of the file.
+    """
+    md5_hash = hashlib.md5()
+    
+    # Update hash by chunks of file
+    with open(file_path, 'rb') as f:
+        for chunk in iter(lambda: f.read(4096), b""):
+            md5_hash.update(chunk)
+    checksum = md5_hash.hexdigest()
+    
+    # Print checksum
+    print(f"MD5 checksum: {checksum}")
+    return checksum
 
 # Set up radio
 def setup():
@@ -38,28 +62,34 @@ def setup():
     print(f"Data rate: {radio.getDataRate()}")
     
 # Send message
-def send_message():
-    # Create message
-    message = "Hello Pi 2!"
-    buffer = bytearray(message, 'utf-8')  # Convert message to bytearray
-    
-    # Limit the buffer size to 32 bytes
-    if len(buffer) > 32:
-        buffer = buffer[:32]
-        
-    # Print Sending message
-    print(f"Sending: {message}")
-    
-    # Load payload to TX Pipe
-    radio.flush_tx()  # Flush TX buffer
-    #radio.start_write(buffer)
-    result = False
-    result = radio.write(buffer)  # Send message and request acknowledgment
-    # Radio send message with confirmatino of success or failure
-    if result:
-        print("Transmission successful")
-    else:
-        print(f"Transmission failed with result: ", result)
+def send_message(chunks):
+    '''
+    Sends a list of 32-byte chunks using the NRF24L01 radio.
+
+    Args:
+        chunks (list): List of 32-byte chunks (bytearrays) to send.
+
+    Returns:
+        None
+    '''
+    for chunk_index, chunk in enumerate(chunks):
+        # Print the chunk being sent
+        print(f"Sending chunk {chunk_index + 1}/{len(chunks)}: {chunk}")
+
+        # Flush TX buffer before sending
+        radio.flush_tx()
+
+        # Send the chunk
+        result = radio.write(chunk)
+
+        # Check if the transmission was successful
+        if result:
+            print(f"Chunk {chunk_index + 1} sent successfully.")
+        else:
+            print(f"Chunk {chunk_index + 1} failed to send.")
+
+        # Add a small delay between transmissions
+        time.sleep(0.1)  # Adjust delay as needed
 
 # Main loop
 setup()
