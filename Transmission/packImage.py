@@ -86,6 +86,10 @@ def chunk_file(file_path):
         while True:
             # Read 24 bytes of data
             data = f.read(24)
+            
+            if chunk_index == 0:
+                print(f"First 24 bytes: {data}")
+                
             if not data: # End of file
                 break
             
@@ -106,14 +110,32 @@ def chunk_file(file_path):
     print(f"Total chunks created from folder: {len(all_chunks)}")
     return all_chunks
 
+def reassemble_file(chunks, output_path):
+    # Sort chunks by key = chunk index
+    chunks.sort(key =
+                lambda chunk:
+                    struct.unpack("I", chunk[:4])[0])
+    
+    # Write the file data to the output file
+    with open(output_path, 'wb') as f:
+        for chunk in chunks:
+            f.write(chunk[8:])
+    
 # Example usage
-chunked_file = chunk_file("Daedalus/zcrypt/image/test.zip")
+chunked_file = chunk_file("zcrypt/image/test.zip")
 print(f"Size of chunked file : {len(chunked_file) * 32} bytes")
 
 # Example: Access the first chunk
 if chunked_file:
     print(f"First chunk: {chunked_file[0]}")
 
+print(f"Reassembling chunks ...")
+
+reassemble_file(chunked_file, "test.zip")
+
+with open("test.zip", 'rb') as f:
+    data = f.read(5)
+    print(f"First 5 bytes: {data}")
 
 
 def chunk_dir_png(folder_path):
