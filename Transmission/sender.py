@@ -1,6 +1,14 @@
 import time
 from pyrf24 import RF24 , RF24_PA_LOW, RF24_DRIVER, RF24_2MBPS, RF24_PA_HIGH   # Module for NRF24L01
 
+# SPI and CE assignments for 4 radios
+SPI_CONFIG = [
+    {'spi_bus': 0, 'ce_pin': 22, 'channel': 0x76},
+    {'spi_bus': 1, 'ce_pin': 6,  'channel': 0x77},
+    {'spi_bus': 3, 'ce_pin': 23, 'channel': 0x78},
+    {'spi_bus': 5, 'ce_pin': 25, 'channel': 0x79},
+]
+
 radio = RF24(22, 0)  # CE = GPIO22, CSN = CE0 on SPI bus 0: /dev/spidev0.0 
 
 # Set up radio
