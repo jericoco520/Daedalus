@@ -93,10 +93,6 @@ def chunk_file(file_path):
             if not data: # End of file
                 break
             
-            # Pad the chunk with zeros if it's less than 24 bytes
-            if len(data) < 24:
-                data += b'\x00' * (24 - len(data))
-                
             # Add metadata: chunk index
             metadata = struct.pack("I", chunk_index)   # 4 bytes for chunk index
             reserved = b'\x00' * 4  # 4 bytes for future use
@@ -106,7 +102,7 @@ def chunk_file(file_path):
             all_chunks.append(chunk)
             
             chunk_index += 1
-        
+    
     print(f"Total chunks created from folder: {len(all_chunks)}")
     return all_chunks
 
@@ -136,7 +132,6 @@ reassemble_file(chunked_file, "test.zip")
 with open("test.zip", 'rb') as f:
     data = f.read(5)
     print(f"First 5 bytes: {data}")
-
 
 def chunk_dir_png(folder_path):
     # Initialize an empty list to hold the chunks
