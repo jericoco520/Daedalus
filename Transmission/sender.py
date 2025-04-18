@@ -20,7 +20,7 @@ radio = RF24(22, 0)  # CE = GPIO22, CSN = CE0 on SPI bus 0: /dev/spidev0.0
 def generate_md5(file_path):
     """
     Generates the MD5 checksum of a file.
-    
+
     Args:
         file_path (str): Path to the file.
 
@@ -141,4 +141,4 @@ def process_and_send_file():
     # Send message every second
     send_message(chunks)
     
-#process_and_send_file()
+process_and_send_file()
