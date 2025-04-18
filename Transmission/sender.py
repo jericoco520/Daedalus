@@ -41,14 +41,18 @@ def generate_md5(file_path):
 
 # Set up radio
 def setup():
+    # Reset the radio to a known state
+    radio.powerDown()
+    radio.powerUp()
+    
     # Initialize radio and check if responding
     if not radio.begin():
         print("Radio hardware not responding")
         return
     channel = SPI_CONFIG[0]['channel']
-    
-    radio.channel = 0x76
-    #radio.setChannel(0x76)            # Set channel 
+
+    print("Setting Radio Configuration")
+    radio.setChannel(0x76)               # Set channel 
     radio.setPALevel(RF24_PA_HIGH)       # Power Amplifier level
     radio.setDataRate(RF24_2MBPS)        # Data rate
     radio.setAutoAck(True)               # Enable auto acknowledgment

@@ -24,15 +24,19 @@ def setup():
     Returns:
         None
     '''
+    # Reset the radio to a known state
+    radio.powerDown()
+    radio.powerUp()
+    
     # Turn on radio
     if not radio.begin():
         raise RuntimeError("Radio hardware not responding")
     
     channel = SPI_CONFIG[0]['channel']
-    
-    radio.channel = 0x76
+
+    print("Setting Radio Configuration")
     # Set configuration
-    #radio.setChannel(0x76)
+    radio.setChannel(0x76)
     radio.setPALevel(RF24_PA_HIGH)
     radio.setDataRate(RF24_2MBPS)
     radio.setAutoAck(True)
