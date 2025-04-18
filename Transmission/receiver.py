@@ -12,7 +12,6 @@ SPI_CONFIG = [
 
 # Initialize one radio
 radio = RF24(22, 0)  # CE=GPIO22, CSN=SPI0 CS0
-global received_chunks
 
 def setup():
     '''
@@ -45,18 +44,18 @@ def setup():
     print("Radio setup complete")
     radio.printPrettyDetails()
 
-def receive_message():
+def receive_message(received_chunks):
     '''
     Description:
         Receives and stores a file transmission
     
     Parameters:
-        None
-        
-    Returns:
-        None
-    '''
+        received_chunks (list): A list to store the received chunks.
 
+    Returns:
+        bool: True if the end-of-transmission signal is received, false
+        otherwise
+    '''
     while radio.available():
         # Get payload size
         payload_size = radio.getDynamicPayloadSize()
@@ -78,6 +77,9 @@ def receive_message():
 def main():
     setup()
 
+    # List to hold received chunks
+    received_chunks = []
+    
     print("Waiting for chunks...")
     while True:
         # Receive chunks
@@ -88,7 +90,7 @@ def main():
             break
 
         time.sleep(0.1)
-
+    
     # Reassemble the file from the received chunks
     output_file = "reassembled_file.zip"
     print(f"Reassembling file into: {output_file}")
