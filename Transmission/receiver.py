@@ -1,5 +1,4 @@
 import time
-import RPi.GPIO as GPIO
 from packImage import reassemble_file
 from pyrf24 import RF24, RF24_PA_LOW, RF24_DRIVER, RF24_2MBPS, RF24_PA_HIGH
 
@@ -24,16 +23,7 @@ def setup():
         
     Returns:
         None
-    '''
-    # Reset GPIO pins
-    GPIO.setmode(GPIO.BCM)
-    GPIO.setup(22, GPIO.OUT)
-    GPIO.output(22, GPIO.LOW)
-    
-    # Reset the radio to a known state
-    radio.powerDown()
-    radio.powerUp()
-    
+    '''    
     # Turn on radio
     if not radio.begin():
         raise RuntimeError("Radio hardware not responding")
