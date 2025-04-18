@@ -29,7 +29,7 @@ def setup():
         raise RuntimeError("Radio hardware not responding")
     
     channel = SPI_CONFIG[0]['channel']
-
+    
     radio.channel = 0x76
     # Set configuration
     #radio.setChannel(0x76)
