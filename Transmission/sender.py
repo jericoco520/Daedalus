@@ -100,7 +100,7 @@ def send_message(chunks):
             print(f"Chunk {chunk_index + 1} failed to send an attempt {attempt + 1}. Retrying...")
         
         # Add a small delay between transmissions
-        #time.sleep(0.1)  # Adjust delay as needed
+        time.sleep(0.05)  # Adjust delay as needed
     
     # Send end-of transmission signal
     end_signal = b"END"

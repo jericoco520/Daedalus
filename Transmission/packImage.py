@@ -126,6 +126,7 @@ def reassemble_file(chunks, output_path):
     # Write the file data to the output file
     with open(output_path, 'wb') as f:
         for chunk in chunks:
+            print(f"Writing in {chunk}")
             f.write(chunk[8:])
     
 # # Example usage
