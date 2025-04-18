@@ -83,7 +83,7 @@ def main():
     print("Waiting for chunks...")
     while True:
         # Receive chunks
-        end_of_transmission = receive_message()
+        end_of_transmission = receive_message(received_chunks)
         
         # Stop receiving if end-of-transmission signal is received
         if end_of_transmission:
