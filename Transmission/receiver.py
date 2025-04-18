@@ -30,8 +30,9 @@ def setup():
     
     channel = SPI_CONFIG[0]['channel']
 
+    radio.channel = 0x76
     # Set configuration
-    radio.setChannel(0x76)
+    #radio.setChannel(0x76)
     radio.setPALevel(RF24_PA_HIGH)
     radio.setDataRate(RF24_2MBPS)
     radio.setAutoAck(True)

@@ -47,7 +47,8 @@ def setup():
         return
     channel = SPI_CONFIG[0]['channel']
     
-    radio.setChannel(0x76)            # Set channel 
+    radio.channel = 0x76
+    #radio.setChannel(0x76)            # Set channel 
     radio.setPALevel(RF24_PA_HIGH)       # Power Amplifier level
     radio.setDataRate(RF24_2MBPS)        # Data rate
     radio.setAutoAck(True)               # Enable auto acknowledgment
