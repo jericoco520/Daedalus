@@ -107,6 +107,17 @@ def chunk_file(file_path):
     return all_chunks
 
 def reassemble_file(chunks, output_path):
+    '''
+    Description:
+        Writes a list of bytes (chunks) into output file (output_path)
+    
+    Parameters:
+        chunks (list[bytes]): A list of bytes to re-order after transmission
+        output_path (str): The path to output file
+        
+    Returns:
+        None
+    '''
     # Sort chunks by key = chunk index
     chunks.sort(key =
                 lambda chunk:

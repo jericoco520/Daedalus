@@ -2,6 +2,15 @@ import time
 from packImage import reassemble_file
 from pyrf24 import RF24, RF24_PA_LOW, RF24_DRIVER, RF24_2MBPS, RF24_PA_HIGH
 
+# SPI and CE assignments for 4 radios
+SPI_CONFIG = [
+    {'spi_bus': 0, 'ce_pin': 22, 'channel': 0x76},
+    {'spi_bus': 1, 'ce_pin': 6,  'channel': 0x77},
+    {'spi_bus': 3, 'ce_pin': 23, 'channel': 0x78},
+    {'spi_bus': 5, 'ce_pin': 25, 'channel': 0x79},
+]
+
+# Initialize one radio
 radio = RF24(22, 0)  # CE=GPIO22, CSN=SPI0 CS0
 global received_chunks
 
@@ -20,8 +29,10 @@ def setup():
     if not radio.begin():
         raise RuntimeError("Radio hardware not responding")
     
+    channel = SPI_CONFIG[0]['channel']
+
     # Set configuration
-    radio.setChannel(0x60)
+    radio.setChannel(channel)
     radio.setPALevel(RF24_PA_HIGH)
     radio.setDataRate(RF24_2MBPS)
     radio.setAutoAck(True)
