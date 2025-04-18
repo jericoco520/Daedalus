@@ -76,24 +76,31 @@ def send_message(chunks):
     Returns:
         None
     '''
+    MAX_RETRIES = 3
     for chunk_index, chunk in enumerate(chunks):
         # Print the chunk being sent
         print(f"Sending chunk {chunk_index + 1}/{len(chunks)}: {chunk}")
 
         # Flush TX buffer before sending
         radio.flush_tx()
+        
+        # Attempt to send the chunk with retries
+        for attempt in range(MAX_RETRIES):
+            # Send the chunk
+            result = radio.write(chunk)
 
-        # Send the chunk
-        result = radio.write(chunk)
-
-        # Check if the transmission was successful
-        if result:
-            print(f"Chunk {chunk_index + 1} sent successfully.")
+            # Check if the transmission was successful
+            if result:
+                print(f"Chunk {chunk_index + 1} sent successfully.")
+                break
+            else:
+                # Re-send chunk if failed initially
+                print(f"Chunk {chunk_index + 1} failed to send.")
         else:
-            print(f"Chunk {chunk_index + 1} failed to send.")
-
+            print(f"Chunk {chunk_index + 1} failed to send an attempt {attempt + 1}. Retrying...")
+        
         # Add a small delay between transmissions
-        time.sleep(0.1)  # Adjust delay as needed
+        #time.sleep(0.1)  # Adjust delay as needed
     
     # Send end-of transmission signal
     end_signal = b"END"
