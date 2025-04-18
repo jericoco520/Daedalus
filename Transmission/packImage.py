@@ -117,21 +117,21 @@ def reassemble_file(chunks, output_path):
         for chunk in chunks:
             f.write(chunk[8:])
     
-# Example usage
-chunked_file = chunk_file("zcrypt/image/test.zip")
-print(f"Size of chunked file : {len(chunked_file) * 32} bytes")
+# # Example usage
+# chunked_file = chunk_file("zcrypt/image/test.zip")
+# print(f"Size of chunked file : {len(chunked_file) * 32} bytes")
 
-# Example: Access the first chunk
-if chunked_file:
-    print(f"First chunk: {chunked_file[0]}")
+# # Example: Access the first chunk
+# if chunked_file:
+#     print(f"First chunk: {chunked_file[0]}")
 
-print(f"Reassembling chunks ...")
+# print(f"Reassembling chunks ...")
 
-reassemble_file(chunked_file, "test.zip")
+# reassemble_file(chunked_file, "test.zip")
 
-with open("test.zip", 'rb') as f:
-    data = f.read(5)
-    print(f"First 5 bytes: {data}")
+# with open("test.zip", 'rb') as f:
+#     data = f.read(5)
+#     print(f"First 5 bytes: {data}")
 
 def chunk_dir_png(folder_path):
     # Initialize an empty list to hold the chunks

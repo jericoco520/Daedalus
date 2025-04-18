@@ -1,6 +1,7 @@
 import time
 import hashlib
-
+from packImage import *
+from reedsolo import RSCodec
 from pyrf24 import RF24 , RF24_PA_LOW, RF24_DRIVER, RF24_2MBPS, RF24_PA_HIGH   # Module for NRF24L01
 
 # SPI and CE assignments for 4 radios
@@ -11,12 +12,15 @@ SPI_CONFIG = [
     {'spi_bus': 5, 'ce_pin': 25, 'channel': 0x79},
 ]
 
+# Addresses for communication
+address = [b"1Node", b"2Node"]       
+
 radio = RF24(22, 0)  # CE = GPIO22, CSN = CE0 on SPI bus 0: /dev/spidev0.0 
 
 def generate_md5(file_path):
     """
     Generates the MD5 checksum of a file.
-
+    
     Args:
         file_path (str): Path to the file.
 
@@ -41,9 +45,9 @@ def setup():
     if not radio.begin():
         print("Radio hardware not responding")
         return
+    channel = SPI_CONFIG[0]['channel']
     
-    address = [b"1Node", b"2Node"]       # Addresses for communication
-    radio.setChannel(0x60)               # Set channel 
+    radio.setChannel(channel)            # Set channel 
     radio.setPALevel(RF24_PA_HIGH)       # Power Amplifier level
     radio.setDataRate(RF24_2MBPS)        # Data rate
     radio.setAutoAck(True)               # Enable auto acknowledgment
@@ -90,11 +94,51 @@ def send_message(chunks):
 
         # Add a small delay between transmissions
         time.sleep(0.1)  # Adjust delay as needed
+    
+    # Send end-of transmission signal
+    end_signal = b"END"
+    radio.write(end_signal)
+    print("End-of-transmission signal sent.")
 
-# Main loop
-setup()
+#================================================================
+'''
+Pseudo of master program:
+    1) Zip file
+    2) encrypt file
+    3) hash file
+    4) chunk file
+    5) send chunked file
+'''
+def process_and_send_file():
+    # Setup radio
+    setup()
 
-# Send message every second
-while True:
-    send_message()
-    time.sleep(1)
+    # Create chunked file
+    file_path = "zcrypt/image/test.zip"
+    
+    # Apply Reed-Solomon encoding
+    with open(file_path, 'rb') as f:
+        data = f.read()
+    rs = RSCodec(10)
+    encoded_data = rs.encode(data)
+    
+    # Write output of encoding to a file
+    encoded_file = "encoded.dat"
+    with open(encoded_file, 'wb') as f:
+        f.write(encoded_data)
+    
+    
+    # Chunk the file
+    print(f"Chunking file: {file_path}")
+    chunks = chunk_file(encoded_file)
+    
+    if not chunks:
+        print("Failed to chunk the file. Exiting.")
+        return
+    
+    print(f"Total chunks to send: {len(chunks)}")
+    
+    # Send message every second
+    send_message(chunks)
+    
+#process_and_send_file()
