@@ -95,10 +95,10 @@ def chunk_file(file_path):
             
             # Add metadata: chunk index
             metadata = struct.pack("I", chunk_index)   # 4 bytes for chunk index
-            reserved = b'\x00' * 4  # 4 bytes for future use
+            identifier = b'FILE'  # 4 bytes for future use
             
             # Combine metadata and data into 32-byte chunk
-            chunk = metadata + reserved + data
+            chunk = metadata + identifier + data
             all_chunks.append(chunk)
             
             chunk_index += 1
