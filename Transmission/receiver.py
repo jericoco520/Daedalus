@@ -68,8 +68,9 @@ def receive_message(received_chunks):
         received_chunks.append(received)
 
         # Check for end-of-transmission signal (optional)
-        if received == b"END":
-            print("End of transmission signal received")
+        for byte in received:
+            if received[byte] == b'END':
+                print("End of transmission signal received")
             return True  # Signal to stop receiving
         
     return False
