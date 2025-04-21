@@ -41,8 +41,6 @@ def generate_md5(file_path):
 
 # Set up radio
 def setup():
-    # Reset the radio to a known state
-    radio.powerDown()
     radio.powerUp()
     
     # Initialize radio and check if responding
@@ -53,6 +51,8 @@ def setup():
 
     print("Setting Radio Configuration")
     radio.setChannel(0x76)               # Set channel 
+    while(radio.getChannel() != 0x76):   # Ensure correct channel
+        radio.setChannel(0x76)
     radio.setPALevel(RF24_PA_HIGH)       # Power Amplifier level
     radio.setDataRate(RF24_2MBPS)        # Data rate
     radio.setAutoAck(True)               # Enable auto acknowledgment
@@ -117,7 +117,8 @@ def send_message(chunks):
 Pseudo of master program:
     1) Zip file
     2) encrypt file
-    3) hash file
+    3) hash file (optional idk if we have time to develop this)
+    4) Encoding thru ReedSolo
     4) chunk file
     5) send chunked file
 '''
@@ -130,8 +131,10 @@ def process_and_send_file():
             2) Encrypted file --ReedSolomon--> Encoded/encrypted file
             3) Chunk file into list[bytes] [32 bytes]
             4) Send chunks through rf
+            
     Parameters:
         None
+        
     Returns:
         None
     '''
@@ -151,7 +154,6 @@ def process_and_send_file():
     encoded_file = "encoded.dat"
     with open(encoded_file, 'wb') as f:
         f.write(encoded_data)
-    
     
     # Chunk the file
     print(f"Chunking file: {file_path}")
