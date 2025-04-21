@@ -66,6 +66,11 @@ def receive_message(received_chunks):
         received = radio.read(payload_size)
         print(f"Received chunk: {received}")
         
+        # Check for end-of-transmission signal 
+        if received == b'END':
+            print("End of transmission signal received")
+            return True  # Signal to stop receiving
+        
         # Validate the ID (identifier 4 bytes)
         if received[4:8] == b'FILE':
              # Add the received chunk to the buffer
@@ -73,12 +78,6 @@ def receive_message(received_chunks):
             received_chunks.append(received)
         else:
             print("Invalid chunk received")
-            
-        # Check for end-of-transmission signal 
-        for byte in received:
-            if received[byte] == b'END':
-                print("End of transmission signal received")
-            return True  # Signal to stop receiving
         
     return False
 
