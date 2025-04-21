@@ -122,6 +122,19 @@ Pseudo of master program:
     5) send chunked file
 '''
 def process_and_send_file():
+    '''
+    Description:
+        Prototype master function. 
+        Logic:
+            1) Turn a radio on
+            2) Encrypted file --ReedSolomon--> Encoded/encrypted file
+            3) Chunk file into list[bytes] [32 bytes]
+            4) Send chunks through rf
+    Parameters:
+        None
+    Returns:
+        None
+    '''
     # Setup radio
     setup()
 
