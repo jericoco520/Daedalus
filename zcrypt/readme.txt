@@ -15,6 +15,9 @@ Python script:
 	python run.py
 	- runs the aes.sh script with command xcrypt (not zip compatible)
 
+Install zip on Ubuntu.
+This new version will not work unless you use the command line in WSL or use Ubuntu.
+
 The script generates and stores two files that contain the encryption key and IV (Initialization Vector). These files ensure encryption can be repeated without requiring a password.
 
 If you want the script to work from anywhere, you can
