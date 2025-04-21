@@ -11,7 +11,7 @@ SPI_CONFIG = [
 ]
 
 # Initialize one radio
-radio = RF24(6, 10)  # CE=GPIO22, CSN=SPI0 CS0
+radio = RF24(22, 0)  # CE=GPIO22, CSN=SPI0 CS0
 
 def setup():
     '''
