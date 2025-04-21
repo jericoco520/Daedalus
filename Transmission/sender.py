@@ -41,7 +41,7 @@ def generate_md5(file_path):
 
 # Set up radio
 def setup():
-    radio.powerUp()
+    radio.begin()
     
     # Initialize radio and check if responding
     if not radio.begin():
