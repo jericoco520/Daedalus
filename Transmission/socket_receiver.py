@@ -51,6 +51,6 @@ if __name__ == "__main__":
 
     # Receiver's IP address and port
     host = "10.16.164.218"  # Listen on all interfaces
-    port = 12345            # Port to listen on
+    port = 8001             # Port to listen on
 
     receive_file(output_path, host, port)

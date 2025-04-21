@@ -48,6 +48,6 @@ if __name__ == "__main__":
 
     # Receiver's IP address and port
     host = "10.16.164.218"  # Replace with the receiver's IP address
-    port = 12345          # Port to connect to
+    port = 8001             # Port to connect to
 
     send_file(file_path, host, port)
