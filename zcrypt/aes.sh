@@ -33,9 +33,9 @@ elif [[ $1 == "zcrypt" ]]; then
         [[ -f "$file" ]] || continue
         openssl enc -d -aes-256-cbc -salt -in "$file" -out "dec/$(basename "${file%.enc}")" -K "$(xxd -p $KEY | tr -d '\n')" -iv "$(xxd -p $IV | tr -d '\n')"
         
-        # If the decrypted file is a zip file, unzip it
+        # If the decrypted file is a zip file, unzip it directly into the 'dec' folder
         if [[ "${file}" == *.zip.enc ]]; then
-            unzip "dec/$(basename "${file%.enc}")" -d "dec/$(basename "${file%.enc}" .zip)"
+            unzip -o "dec/$(basename "${file%.enc}")" -d "dec"
             echo "Unzipped: dec/$(basename "${file%.enc}")"
         fi
     done

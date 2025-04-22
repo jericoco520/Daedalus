@@ -17,3 +17,5 @@ now encrypts both PNGs and ZIPs
 
 zcrypt command processes .zip files.
 xcrypt command still encypts all.
+
+zcrypt now zips the images, encrypts, then unencrypts and unzips them.
