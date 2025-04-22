@@ -48,7 +48,7 @@ def send_message():
     
     # Load payload to TX Pipe
     radio.flush_tx()  # Flush TX buffer
-    #radio.start_write(buffer)
+    radio.start_write(buffer)
     
     result = False
     result = radio.write(buffer)  # Send message and request acknowledgment
