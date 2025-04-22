@@ -7,7 +7,7 @@ def setup():
     if not radio.begin():
         raise RuntimeError("Radio hardware not responding")
     
-    radio.setChannel(0x76)
+    radio.setChannel(0x60)
     radio.setPALevel(RF24_PA_HIGH)
     radio.setDataRate(RF24_2MBPS)
     radio.setAutoAck(True)

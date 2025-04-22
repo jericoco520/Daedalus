@@ -11,7 +11,7 @@ def setup():
         return
     
     address = [b"1Node", b"2Node"]       # Addresses for communication
-    radio.setChannel(0x76)               # Set channel 
+    radio.setChannel(0x60)               # Set channel 
     radio.setPALevel(RF24_PA_HIGH)       # Power Amplifier level
     radio.setDataRate(RF24_2MBPS)        # Data rate
     radio.setAutoAck(True)               # Enable auto acknowledgment
