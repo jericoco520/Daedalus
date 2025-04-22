@@ -25,7 +25,7 @@ def receive_message():
         payload_size = radio.getDynamicPayloadSize()
         
         # Read the payload
-        received = radio.read(payload_size)
+        received = radio.read(payload_size).decode('utf-8', errors='replace')
         print(f"Received: {received}")
 
 setup()
