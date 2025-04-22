@@ -19,16 +19,25 @@ elif [[ $1 == "decrypt" ]]; then
         openssl enc -d -aes-256-cbc -salt -in "$file" -out "dec/$(basename "${file%.enc}")" -K "$(xxd -p $KEY | tr -d '\n')" -iv "$(xxd -p $IV | tr -d '\n')"
     done
 elif [[ $1 == "zcrypt" ]]; then
+    # Check if there are any PNG files, and if so, create a zip of them
     if compgen -G "image/*.png" > /dev/null; then
         zip -j image/images.zip image/*.png
     fi
+    # Encrypt the zip files
     for file in image/*.zip; do
         [[ -f "$file" ]] || continue
         openssl enc -aes-256-cbc -salt -in "$file" -out "enc/$(basename "$file").enc" -K "$(xxd -p $KEY | tr -d '\n')" -iv "$(xxd -p $IV | tr -d '\n')"
     done
+    # Decrypt the encrypted zip files
     for file in enc/*.zip.enc; do
         [[ -f "$file" ]] || continue
         openssl enc -d -aes-256-cbc -salt -in "$file" -out "dec/$(basename "${file%.enc}")" -K "$(xxd -p $KEY | tr -d '\n')" -iv "$(xxd -p $IV | tr -d '\n')"
+        
+        # If the decrypted file is a zip file, unzip it
+        if [[ "${file}" == *.zip.enc ]]; then
+            unzip "dec/$(basename "${file%.enc}")" -d "dec/$(basename "${file%.enc}" .zip)"
+            echo "Unzipped: dec/$(basename "${file%.enc}")"
+        fi
     done
 elif [[ $1 == "xcrypt" ]]; then
     for file in image/*.png image/*.zip; do

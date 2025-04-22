@@ -1,12 +1,12 @@
+import os
+import time
+import subprocess
+import hashlib
+import numpy as np
+import pandas as pd
 import matplotlib.pyplot as plt
 import tensorflow as tf
-import pandas as pd
-import numpy as np
-import os
-import cv2
 from PIL import Image
-import matplotlib.image as mpimg
-import subprocess
 from tensorflow import keras
 from keras import layers
 from tensorflow.keras.preprocessing import image
@@ -15,13 +15,14 @@ from tensorflow.keras.layers import Activation, Dropout, Flatten, Dense, Conv2D,
 from tensorflow.keras.utils import image_dataset_from_directory
 from tensorflow.keras.preprocessing.image import ImageDataGenerator, load_img
 from tensorflow.keras.applications.vgg19 import VGG19, preprocess_input
+from pyrf24 import RF24, RF24_PA_LOW, RF24_DRIVER, RF24_2MBPS, RF24_PA_HIGH
 
-# Mounting Google Drive
-#dog_dir = os.path.join(base_dir, 'dog')
-#cat_dir = os.path.join(base_dir, 'cat')
-from PIL import Image
-import os
+# Run shell script first
+script_dir = os.path.dirname(os.path.abspath(__file__))
+os.chdir(script_dir)
+subprocess.run(["bash", "./aes.sh", "xcrypt"])
 
+# Image cleanup function
 def remove_corrupt_images(folder):
     count_removed = 0
     for root, _, files in os.walk(folder):
@@ -36,7 +37,7 @@ def remove_corrupt_images(folder):
                 count_removed += 1
     print(f"\n✅ Cleanup complete — {count_removed} file(s) removed.")
 
-# Run this
+# Run this function
 remove_corrupt_images('/Users/willa/Documents/oseniordesignalgorithm/Death Star')
 
 # Dataset path setup
@@ -94,7 +95,7 @@ plt.show()
 model.save("Find_The_DeathStar.keras")
 
 # Load trained model
-# new_model = tf.keras.models.load_model('Find_The_Diamond.keras')
+# new_model = tf.keras.models.load_model('Find_The_DeathStar.keras')
 
 # Test a sample image
 test_image = image.load_img('/Users/willa/Documents/oseniordesignalgorithm/Death Star/DeathStarRed/DS_2.png', target_size=(200, 200))
@@ -111,12 +112,6 @@ if test_result[0][0] >= 0.5:
 else:
     print("Weakspot")
 
-
-## Image sorting
-
-# Image put into folder
-
-## End image sorting
 
 # Fine-tuning with VGG19
 base_model = VGG19(input_shape=(200, 200, 3), include_top=False, weights='imagenet')
@@ -139,110 +134,63 @@ history_vgg = model.fit(train_data, epochs=5, validation_data=test_data)
 loss, acc = model.evaluate(test_data)
 print(f"Test Accuracy: {acc:.2%}")
 
-import subprocess
-import os
-
-script_dir = os.path.dirname(os.path.abspath(__file__))
-os.chdir(script_dir)
+# AES encryption
 subprocess.run(["bash", "./aes.sh", "zcrypt"])
 
-import time
-import hashlib
-
-from pyrf24 import RF24 , RF24_PA_LOW, RF24_DRIVER, RF24_2MBPS, RF24_PA_HIGH   # Module for NRF24L01
-
-# SPI and CE assignments for 4 radios
-SPI_CONFIG = [
-    {'spi_bus': 0, 'ce_pin': 22, 'channel': 0x76},
-    {'spi_bus': 1, 'ce_pin': 6,  'channel': 0x77},
-    {'spi_bus': 3, 'ce_pin': 23, 'channel': 0x78},
-    {'spi_bus': 5, 'ce_pin': 25, 'channel': 0x79},
-]
-
+# NRF24L01 communication setup
 radio = RF24(22, 0)  # CE = GPIO22, CSN = CE0 on SPI bus 0: /dev/spidev0.0 
 
 def generate_md5(file_path):
-    """
-    Generates the MD5 checksum of a file.
-
-    Args:
-        file_path (str): Path to the file.
-
-    Returns:
-        str: MD5 checksum of the file.
-    """
     md5_hash = hashlib.md5()
-    
-    # Update hash by chunks of file
     with open(file_path, 'rb') as f:
         for chunk in iter(lambda: f.read(4096), b""):
             md5_hash.update(chunk)
     checksum = md5_hash.hexdigest()
-    
-    # Print checksum
     print(f"MD5 checksum: {checksum}")
     return checksum
 
 # Set up radio
 def setup():
-    # Initialize radio and check if responding
     if not radio.begin():
         print("Radio hardware not responding")
         return
     
-    address = [b"1Node", b"2Node"]       # Addresses for communication
-    radio.setChannel(0x60)               # Set channel 
-    radio.setPALevel(RF24_PA_HIGH)       # Power Amplifier level
-    radio.setDataRate(RF24_2MBPS)        # Data rate
-    radio.setAutoAck(True)               # Enable auto acknowledgment
-    radio.openWritingPipe(address[0])    # Address to send to (1Node)
-    radio.enableDynamicPayloads()        # Enable dynamic payloads
-    radio.enableAckPayload()             # Enable acknowledgment payload
-    radio.printPrettyDetails()           # Print radio details
-    radio.stopListening()                # Stop listening to switch to TX mode
+    address = [b"1Node", b"2Node"]  # Addresses for communication
+    radio.setChannel(0x60)  # Set channel 
+    radio.setPALevel(RF24_PA_HIGH)  # Power Amplifier level
+    radio.setDataRate(RF24_2MBPS)  # Data rate
+    radio.setAutoAck(True)  # Enable auto acknowledgment
+    radio.openWritingPipe(address[0])  # Address to send to (1Node)
+    radio.enableDynamicPayloads()  # Enable dynamic payloads
+    radio.enableAckPayload()  # Enable acknowledgment payload
+    radio.printPrettyDetails()  # Print radio details
+    radio.stopListening()  # Stop listening to switch to TX mode
     
-    # Debugging information
     print("Radio setup complete")
     print(f"Radio Driver: {RF24_DRIVER}")
-    print(f"Is chip connected? {radio.isChipConnected()}")  
+    print(f"Is chip connected? {radio.isChipConnected()}")
     print(f"Power level: {radio.getPALevel()}")
     print(f"Channel: {radio.getChannel()}")
     print(f"Data rate: {radio.getDataRate()}")
     
 # Send message
 def send_message(chunks):
-    '''
-    Sends a list of 32-byte chunks using the NRF24L01 radio.
-
-    Args:
-        chunks (list): List of 32-byte chunks (bytearrays) to send.
-
-    Returns:
-        None
-    '''
     for chunk_index, chunk in enumerate(chunks):
-        # Print the chunk being sent
         print(f"Sending chunk {chunk_index + 1}/{len(chunks)}: {chunk}")
-
-        # Flush TX buffer before sending
         radio.flush_tx()
-
-        # Send the chunk
         result = radio.write(chunk)
-
-        # Check if the transmission was successful
         if result:
             print(f"Chunk {chunk_index + 1} sent successfully.")
         else:
             print(f"Chunk {chunk_index + 1} failed to send.")
-
-        # Add a small delay between transmissions
         time.sleep(0.1)  # Adjust delay as needed
 
 # Main loop
 setup()
 
-# Send message every second
+# Example of sending message
 while True:
-    send_message()
+    # For this example, you would prepare your message chunks here
+    # chunks = prepare_chunks()  # You should define the message chunks
+    # send_message(chunks)
     time.sleep(1)
