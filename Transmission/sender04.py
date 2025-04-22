@@ -59,7 +59,7 @@ def send_message():
         print(f"Transmission failed with result: ", result)
 
 # Main loop
-setup()
+setup(radio)
 
 # Send message every second
 while True:
