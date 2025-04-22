@@ -4,7 +4,7 @@ from pyrf24 import RF24 , RF24_PA_LOW, RF24_DRIVER, RF24_2MBPS, RF24_PA_HIGH   #
 radio = RF24(22, 0)  # CE = GPIO22, CSN = CE0 on SPI bus 0: /dev/spidev0.0 
 
 # Set up radio
-def setup():
+def setup(radio):
     # Initialize radio and check if responding
     if not radio.begin():
         print("Radio hardware not responding")
