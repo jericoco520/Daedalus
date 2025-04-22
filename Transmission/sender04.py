@@ -64,4 +64,4 @@ setup(radio)
 # Send message every second
 while True:
     send_message()
-    time.sleep(1)
+    time.sleep(.1)
