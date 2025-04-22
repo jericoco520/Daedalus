@@ -17,7 +17,7 @@ def setup():
     radio.setPALevel(RF24_PA_HIGH)       # Power Amplifier level
     radio.setDataRate(RF24_2MBPS)        # Data rate
     radio.setAutoAck(True)               # Enable auto acknowledgment
-    radio.openWritingPipe(address[0])    # Address to send to (1Node)
+    radio.openWritingPipe(b'1Node')    # Address to send to (1Node)
     radio.enableDynamicPayloads()        # Enable dynamic payloads
     radio.enableAckPayload()             # Enable acknowledgment payload
     #radio.enable_dynamic_ack()           # Enable dynamic acknowledgment
@@ -49,6 +49,7 @@ def send_message():
     # Load payload to TX Pipe
     radio.flush_tx()  # Flush TX buffer
     #radio.start_write(buffer)
+    
     result = False
     result = radio.write(buffer)  # Send message and request acknowledgment
     # Radio send message with confirmatino of success or failure

@@ -3,7 +3,7 @@ from pyrf24 import RF24, RF24_PA_LOW, RF24_DRIVER, RF24_2MBPS, RF24_PA_HIGH
 
 radio = RF24(22, 0)  # CE=GPIO22, CSN=SPI0 CS0
 
-def setup():
+def setup(radio):
     if not radio.begin():
         raise RuntimeError("Radio hardware not responding")
 
@@ -28,7 +28,7 @@ def receive_message():
         received = radio.read(payload_size).decode('utf-8', errors='replace')
         print(f"Received: {received}")
 
-setup()
+setup(radio)
 
 while True:
     receive_message()
