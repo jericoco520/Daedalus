@@ -26,7 +26,9 @@ def receive_message():
         
         # Read the payload
         received = radio.read(payload_size).decode('utf-8', errors='replace')
-        print(f"Received: {received}")
+        
+        if received == "Hello Pi 2!":
+            print(f"Received: {received}")
 
 setup(radio)
 
